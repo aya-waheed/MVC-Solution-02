@@ -1,6 +1,8 @@
 ﻿using Company.Data.Models;
 using Company.Service.Interfaces;
+using Company.Service.Interfaces.Dto;
 using Company.Service.Services;
+using Company.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Company.Web.Controllers
@@ -8,17 +10,24 @@ namespace Company.Web.Controllers
     public class EmployeeController : Controller
     {
         private readonly IEmployeeService _employeeService;
+        private readonly IDepartmentService _departmentService;
 
-        public EmployeeController(IEmployeeService employeeService)
+        public EmployeeController(IEmployeeService employeeService , IDepartmentService departmentService)
         {
             _employeeService = employeeService;
+            _departmentService = departmentService;
         }
 
-        [HttpGet]
+        
         public IActionResult Index(string searchInp)
         {
+            // ViewBag , ViewData , TempData
+           // ViewBag.Message = "Hello from Employee Index (ViewBag)";
+           // ViewData["TextMessage"] = "Hello from Employee Index (ViewData)";
+            
 
-            IEnumerable<Employee> employees = new List<Employee>();
+
+            IEnumerable<EmployeeDto> employees = new List<EmployeeDto>();
 
             if(string.IsNullOrEmpty(searchInp))
               employees = _employeeService.GetAll();
@@ -34,12 +43,14 @@ namespace Company.Web.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-
+            
+            // ViewBag , ViewData , TempData
+            ViewBag.Departments = _departmentService.GetAll();
             return View();
         }
 
         [HttpPost]
-        public IActionResult Create(Employee employee)
+        public IActionResult Create(EmployeeDto employee)
         {
 
             try

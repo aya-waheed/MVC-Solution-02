@@ -8,6 +8,7 @@ using Company.Service.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace Company.Web
 {
     public class Program
@@ -16,6 +17,7 @@ namespace Company.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -68,8 +70,10 @@ namespace Company.Web
 
             });
 
+           
 
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -79,14 +83,16 @@ namespace Company.Web
                 app.UseHsts();
             }
 
+           
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
+           
             app.UseAuthentication();
+
+            app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
